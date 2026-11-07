@@ -35,3 +35,4 @@ with the same original values.
 ![Step 1 — Original note before editing](TC-Contact-001-mysql-before-edit%20changes.png)
 ![Step 2 — Updated note after reopening](TC-Contact-001-mysql-after-reopen.png)
 <img width="761" height="593" alt="TC-Contact-001-step24-Pass" src="https://github.com/user-attachments/assets/45ebe425-74fa-4674-8796-24a83b6af58a" />
+
