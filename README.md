@@ -1,41 +1,61 @@
 # Project GoDaddy
 
-Project GoDaddy demonstrates quality engineering across the seven phases of
-the SDLC by migrating CareerOps from MySQL to PostgreSQL.
-
-## First verification workflow
-
-Verify that an existing employer contact retains its ID, status, dates, and
-notes during migration, and can still be edited, saved, and reopened.
-
-- [Migration requirement — REQ-MIG-001](requirements/migration.sdoc)
-- [Manual test — TC-CONTACT-001](requirements/docs/manual-tests/TC-CONTACT-001.md)
-
-Run the manual test against the MySQL baseline and the migrated PostgreSQL
-staging environment using the same synthetic contact. Record the results
-for each environment before automating the workflow in GitHub Actions.
+Project GoDaddy is a CareerOps proof of concept for applying quality engineering
+across all seven phases of the software development lifecycle.
 
 ## Genesis
 
-Project GoDaddy takes its name from Bob Parsons’s story. His path from
-the Marine Corps through education and entrepreneurship, and his later
-work supporting veterans, got me thinking about what we carry forward
-from one chapter to the next.
+Project GoDaddy grew out of improvements I made to CareerOps. While working on
+the employer contact workflow, I saw that company, recruiter, and position
+details were being managed together even though they change independently.
+A company can have several open positions, and a recruiter can support several
+searches. I also wanted to track people who could become future employees
+before there was a specific opening for them.
 
-One practice I’ve carried forward from the military is the hot-wash.
-After an operation, we looked at what happened, what worked, and what
-we needed to improve. I wanted to bring that same discipline to a
-software project and make the evidence visible at every phase.
+The project name draws on Bob Parsons’s story, from his service in the Marine
+Corps through education, entrepreneurship, and his later work supporting
+veterans. One practice I’ve carried forward from my own military service is
+the hot-wash. After an operation, we reviewed what happened, what worked, and
+what we needed to improve. I’ll use that practice after the migration rehearsal
+and record what I’d change before the next run.
 
 ## Why this project exists
 
-Moving CareerOps from MySQL to PostgreSQL gives me a practical way to
-show how quality engineering works across all seven phases of the SDLC.
-The question is whether existing data survives the migration and people
-can still complete the workflows they rely on.
+I’m using the move from MySQL to PostgreSQL to normalize the CareerOps data
+model. The project will show how I verify that existing records and history
+survive the migration, that the employer contact workflow still works, and
+that related records can be maintained independently.
 
-The first example is an employer contact. I’ll trace it from a StrictDoc
-requirement to a manual test, compare the results on MySQL and PostgreSQL,
-and use that baseline when I automate the check in GitHub Actions. After
-the migration rehearsal, I’ll run a hot-wash and record what I’d change
-before the next run.
+## What each record owns
+
+| Record | What belongs there |
+| --- | --- |
+| **Companies** | Company name, website, industry, and other organization details. |
+| **Recruiters** | Recruiter name, contact information, and affiliation. A recruiter can be linked to multiple positions. |
+| **Positions** | Hiring company, role title, job posting, work arrangement, and advertised compensation. Application status and interview history belong to the application tracking record. |
+| **Contributors** | People who could become future employees, their skills or interests, and relationship notes. A contributor can be tracked before being linked to a position. |
+
+## Requirements and verification
+
+- **[REQ-MIG-001 — Preserve existing records and history](requirements/migration.sdoc).**
+  Trace each legacy tracker record to its migrated record and verify that its
+  status, dates, and notes carry forward.
+- **REQ-NORM-001 — Separate company, recruiter, position, and contributor data.**
+  Maintain each record independently and link records where a relationship
+  exists. This requirement is planned for StrictDoc.
+
+### First migration test
+
+Run [TC-CONTACT-001](requirements/docs/manual-tests/TC-CONTACT-001.md) against
+the MySQL baseline and the migrated PostgreSQL staging environment using the
+same synthetic employer contact. Compare its original values, then edit, save,
+and reopen it. Record both manual results before automating the check in
+GitHub Actions.
+
+### First normalization test
+
+Create one synthetic company, two positions, and one recruiter who supports
+both. Change the company website once and verify that both positions show
+the updated website and that each application retains its own status and
+interview history. Then create a contributor without assigning them to a
+position.
