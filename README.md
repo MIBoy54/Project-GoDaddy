@@ -37,6 +37,12 @@ that related records can be maintained independently.
 
 ## Requirements and verification
 
+GitHub is the source of truth for Project GoDaddy. The migration requirements
+live in [`requirements/migration.sdoc`](requirements/migration.sdoc) and can
+be edited directly in GitHub. [StrictDoc](https://strictdoc-project.github.io/)
+is the separate tool we’ll use to validate the requirements and generate
+traceability reports. Later, GitHub Actions can run StrictDoc automatically.
+
 - **[REQ-MIG-001 — Preserve existing records and history](requirements/migration.sdoc).**
   Trace each legacy tracker record to its migrated record and verify that its
   status, dates, and notes carry forward.
