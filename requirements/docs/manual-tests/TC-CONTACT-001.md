@@ -2,7 +2,9 @@
 
 - **Requirement:** [REQ-MIG-001](../../migration.sdoc)
 - **MySQL baseline result:** PASS (steps 1–2)
-- **PostgreSQL staging result:** PASS
+- **Local PostgreSQL GUI save/reopen:** PASS (later QA snapshot)
+- **PostgreSQL staging result:** Not run
+
 - **Record:** QA tracker `1` → PostgreSQL pursuit `3`
 - **Actual result:** The edited note persisted after reloading the page
   and reopening the contact. The contact date, hiring stage, and position
