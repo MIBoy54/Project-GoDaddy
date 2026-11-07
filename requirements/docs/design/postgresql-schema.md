@@ -47,6 +47,26 @@ and 12 referenced both a missing report and a missing tracker. Rerun the
 check on the migration input. Account for each source link as a migrated
 link or a documented exception with its original IDs and reason.
 
+## Recruiter tracker field mapping
+
+| MySQL source | Proposed PostgreSQL destination |
+| --- | --- |
+| `id` | Migration mapping. Record the source environment and original tracker ID alongside the new pursuit ID. |
+| `company`, `industry` | Company name and industry. Review company matches before merging records. |
+| `recruiter_name` | Recruiter name. Link the recruiter to the pursuit when identified. |
+| `phone`, `email`, `address`, `website` | Company, recruiter, or position as appropriate. Preserve the original values in the migration input until ownership is confirmed. |
+| `role_level`, `role_category` | Position role and role type. These are the fields the deployed form uses. |
+| `role_title`, `role_type` | Preserve the legacy values and flag conflicts for review before using either as a fallback. |
+| `location`, `comp_range`, `requisition_id` | Position location, compensation range, and requisition ID. |
+| `date_contacted`, `interview_date`, `follow_up_date` | Pursuit dates. Carry them forward as calendar dates. |
+| `hiring_stage`, `position_status` | Current pursuit stage and status. |
+| `status`, `relationship_status` | Preserve as separate tracking values while verifying how existing reports use them. |
+| `stage_entered_at` | Time the pursuit entered its current stage. Verify the source time convention before conversion and preserve it for status aging. |
+| `notes`, `reported_to_unemployment` | Pursuit notes and unemployment reporting flag. |
+
+A current stage, status, or date can be migrated as recorded. Create a
+historical workflow event only when the source establishes that it happened.
+
 ## Decisions before writing SQL
 
 - Finish the field-by-field mapping from the live production schema,
