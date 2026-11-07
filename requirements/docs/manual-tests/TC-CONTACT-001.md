@@ -25,5 +25,10 @@ with the same original values.
 - **Observation:** The form displayed `QA Engineer`, while MySQL `role_title`
   was `NULL`. The source of the displayed role is pending verification.
 
+  - **Field mapping verified for tracker `1`:** The displayed Role (`QA Engineer`)
+  is stored in `role_level`, and the displayed Role Type (`Individual
+  Contributor`) is stored in `role_category`. Both `role_title` and
+  `role_type` are NULL on this row.
+
 ![Step 1 — Original note before editing](TC-Contact-001-mysql-before-edit%20changes.png)
 ![Step 2 — Updated note after reopening](TC-Contact-001-mysql-after-reopen.png)
