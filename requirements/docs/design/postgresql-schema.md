@@ -67,6 +67,17 @@ link or a documented exception with its original IDs and reason.
 A current stage, status, or date can be migrated as recorded. Create a
 historical workflow event only when the source establishes that it happened.
 
+### Legacy contact details
+
+Preserve the original phone, email, address, and website in a migration
+staging record keyed by source environment and legacy tracker ID. Copy a
+value into a Company, Recruiter, or Position record when its owner can be
+verified. Record ambiguous values as migration exceptions for review.
+
+If a legacy row has no company or recruiter name, preserve the pursuit
+and flag the missing relationship for review. Keep names required when
+creating Company and Recruiter records.
+
 ## Decisions before writing SQL
 
 - Finish the field-by-field mapping from the live production schema,
