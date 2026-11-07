@@ -76,3 +76,5 @@ historical workflow event only when the source establishes that it happened.
   details when it opens a report.
 - Define which source values can be migrated as history and which workflow
   events CareerOps will start recording after the migration.
+
+  
