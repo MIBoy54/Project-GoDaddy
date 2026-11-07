@@ -7,9 +7,7 @@
 - **Actual result:** The edited note persisted after reloading the page
   and reopening the contact. The contact date, hiring stage, and position
   status matched the values shown before the edit.
-- [Note saved to PostgreSQL](PostgreSQL_Contact.png)
-- [Updated note visible after reopening](PostgreSQL_Contact_Reload.png) 
-
+  
 ## Setup
 
 Use a synthetic employer contact in a MySQL test environment. Capture the
@@ -41,4 +39,10 @@ with the same original values.
 ![Step 2 — Updated note after reopening](TC-Contact-001-mysql-after-reopen.png)
 <img width="761" height="593" alt="TC-Contact-001-step24-Pass" src="https://github.com/user-attachments/assets/45ebe425-74fa-4674-8796-24a83b6af58a" />
 <img width="761" height="593" alt="TC-CONTACT-001" src="https://github.com/user-attachments/assets/268a7c18-74bd-4621-9cd0-6cf6b6549a90" />
+<img width="953" height="878" alt="PostgreSQL_Contact" src="https://github.com/user-attachments/assets/f2d7fd40-02af-4317-b2aa-2822fcb70733" />
+<img width="948" height="878" alt="PostgreSQL_Contact_Updated" src="https://github.com/user-attachments/assets/eba1978c-b81b-4a45-be04-5dc290670e28" />
+<img width="947" height="877" alt="PostgreSQL_Contact_Reload" src="https://github.com/user-attachments/assets/4a82c5e1-24e5-41f6-9d28-be95bba58418" />
+
+
+
 
