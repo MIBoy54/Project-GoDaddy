@@ -1,3 +1,4 @@
+<img width="761" height="593" alt="TC-CONTACT-001" src="https://github.com/user-attachments/assets/268a7c18-74bd-4621-9cd0-6cf6b6549a90" />
 # TC-CONTACT-001 — Verify employer contact after migration
 
 - **Requirement:** [REQ-MIG-001](../../migration.sdoc)
@@ -28,7 +29,9 @@ with the same original values.
   - **Field mapping verified for tracker `1`:** The displayed Role (`QA Engineer`)
   is stored in `role_level`, and the displayed Role Type (`Individual
   Contributor`) is stored in `role_category`. Both `role_title` and
+
   `role_type` are NULL on this row.
 
 ![Step 1 — Original note before editing](TC-Contact-001-mysql-before-edit%20changes.png)
 ![Step 2 — Updated note after reopening](TC-Contact-001-mysql-after-reopen.png)
+<img width="761" height="593" alt="TC-Contact-001-step24-Pass" src="https://github.com/user-attachments/assets/45ebe425-74fa-4674-8796-24a83b6af58a" />
