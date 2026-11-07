@@ -1,1 +1,17 @@
+[DOCUMENT]
+TITLE: CareerOps Migration Requirements
 
+[REQUIREMENT]
+UID: REQ-MIG-001
+TITLE: Preserve existing tracker records and history
+STATEMENT: Each legacy tracker record shall be traceable by its original ID to its migrated tracking record. The migration shall preserve its recorded statuses, dates, notes, and existing workflow history.
+
+[REQUIREMENT]
+UID: REQ-NORM-001
+TITLE: Maintain CareerOps records independently
+STATEMENT: CareerOps shall maintain company, recruiter, position, and contributor records independently. Multiple positions shall be able to reference the same company and recruiter. Updating shared company details shall preserve each pursuit's status and workflow history. A contributor shall be able to exist without a position assignment.
+
+[REQUIREMENT]
+UID: REQ-WF-001
+TITLE: View pursuit workflow history
+STATEMENT: CareerOps shall show each pursuit's current stage, current status, and next follow-up date when scheduled. It shall also show a chronological timeline with each event's date, type, recorder when known, and any notes. Stage and status changes shall show the previous and new values.
