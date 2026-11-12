@@ -4,14 +4,19 @@ TITLE: CareerOps Migration Requirements
 [REQUIREMENT]
 UID: REQ-MIG-001
 TITLE: Preserve existing tracker records and history
-STATEMENT: Each legacy tracker record shall be traceable by its original ID to its migrated tracking record. The migration shall preserve its recorded statuses, dates, notes, and existing workflow history.
+STATEMENT: Each original tracker ID shall map to exactly one migrated tracking record. The migrated record shall preserve the legacy record's statuses, dates, notes, and existing workflow history.
 
 [REQUIREMENT]
 UID: REQ-NORM-001
 TITLE: Maintain CareerOps records independently
-STATEMENT: CareerOps shall maintain company, recruiter, position, and contributor records independently. Multiple positions shall be able to reference the same company and recruiter. Updating shared company details shall preserve each pursuit's status and workflow history. A contributor shall be able to exist without a position assignment.
+STATEMENT: CareerOps shall maintain company, recruiter, position, and contributor records independently. Multiple positions shall be able to reference the same company, and one recruiter shall be able to support multiple positions. When shared company details change, each position referencing that company shall display the updated details, and each associated pursuit shall retain its own status and workflow history. CareerOps shall allow a contributor record to be saved and reopened without a position assignment.
 
 [REQUIREMENT]
 UID: REQ-WF-001
 TITLE: View pursuit workflow history
-STATEMENT: CareerOps shall show each pursuit's current stage, current status, and next follow-up date when scheduled. It shall also show a chronological timeline with each event's date, type, recorder when known, and any notes. Stage and status changes shall show the previous and new values.
+STATEMENT: CareerOps shall show each pursuit's current stage, current status, and next follow-up date when one is scheduled. The pursuit timeline shall display events from oldest to newest and use a consistent order for events with the same recorded timestamp. Each event shall show its date, type, recorder when known, and any recorded notes. For each stage or status change, the event shall show the previous and new values of the field that changed.
+
+[REQUIREMENT]
+UID: REQ-NOTE-001
+TITLE: Save pursuit note edits
+STATEMENT: After a user saves a note edit and reopens the pursuit, CareerOps shall display the saved note. A note-only edit shall preserve the pursuit's current stage, status, scheduled follow-up date, and all pre-existing workflow events.
