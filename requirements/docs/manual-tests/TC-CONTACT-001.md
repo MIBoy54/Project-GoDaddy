@@ -3,7 +3,7 @@
 - **Requirements:** [REQ-MIG-001](../../migration.sdoc) and [REQ-NOTE-001](../../migration.sdoc)
 - **MySQL baseline result:** PASS (steps 1–2)
 - **Local PostgreSQL GUI save/reopen:** PASS (later QA snapshot)
-- **PostgreSQL staging result:** Not run
+- **Local PostgreSQL history fixture result:** Not run
 
 - **Record:** QA tracker `1` → PostgreSQL pursuit `3`
 - **Actual result:** The edited note persisted after reloading the page
@@ -15,8 +15,8 @@
 ### MySQL QA baseline
 
 Use a synthetic employer contact in MySQL QA (`careerops_qa`). Capture the
-migration input before making the test edit so PostgreSQL staging can start
-with the same original values. Record the exact browser URL used to open the
+migration input before making the test edit so the local PostgreSQL rehearsal
+can start with the same original values. Record the exact browser URL used to open the
 contact. The QA app entry point is [CareerOps QA](https://qa.democareerops-platform.com/).
 
 ### Local PostgreSQL rehearsal
@@ -51,23 +51,40 @@ contact. The QA app entry point is [CareerOps QA](https://qa.democareerops-platf
    hiring stage, and position status across both captures. Use read-only
    database evidence to compare workflow history.
 
-### PostgreSQL staging
+### Local history fixture
 
-Before steps 3–4, confirm the staging app is connected to PostgreSQL and the
-synthetic fixture was migrated from the captured MySQL baseline. Record the
-exact staging validation URL and the original-to-migrated ID mapping in the
-run evidence. Use a synthetic staging fixture with a scheduled follow-up and
-existing workflow events, including a stage or status change, to exercise
-preservation. The local replay uses a later QA snapshot.
+1. Run the [synthetic MySQL fixture](../database/mysql/contact_history_fixture.sql)
+   and save its `source_row` JSON as the baseline for tracker `1001`. This is
+   authored test data with two workflow events and a scheduled follow-up.
+2. Create a fresh local PostgreSQL database named `careerops_pg_history_replay`.
+   Apply PostgreSQL schema scripts `001` through `005` in numerical order.
+3. In pgAdmin, paste the captured JSON between the `$fixture$` delimiters and run
+   the insert below. Then run the [replay script](../database/postgresql/replay_contact_history_fixture.sql).
+
+   ```sql
+   INSERT INTO migration.legacy_tracker_rows
+       (source_environment, legacy_tracker_id, source_row)
+   VALUES ('railway_qa', 1001, $fixture$PASTE_CAPTURED_JSON_HERE$fixture$::jsonb);
+   ```
+
+4. Stop any prior rehearsal listener on port `3100`. In the rehearsal checkout,
+   set `$env:CAREEROPS_POSTGRES_DATABASE = 'careerops_pg_history_replay'` before
+   starting the launcher. This setting is available in rehearsal commit `b14c8a7`.
+5. Open **Mendelssohn History Fixture (QA tracker 1001)** at the
+   [local validation URL](http://127.0.0.1:3100/). Run the [verification SQL](../database/postgresql/verify_contact_history_fixture.sql)
+   before editing and after reopening. Compare the first result to the MySQL
+   JSON and the second to the first. Save both results and the browser captures.
 
 ## Test steps
+
+Steps 1–2 describe the MySQL QA contact check. For tracker 1001, capture the synthetic baseline with the fixture query above, then run steps 3–4.
 
 | Step | Action | Expected result |
 | --- | --- | --- |
 | 1 | Open the contact in MySQL. Record its original tracker ID, stage, status, dates (including the scheduled follow-up), notes, and workflow history in event order. Use a read-only query for the ID if the UI does not display it. | The original record and its values are captured as the baseline. |
 | 2 | In MySQL, make a known change to the contact notes. Save, close, and reopen the contact. | The updated notes persist. The status and dates still match the baseline. |
-| 3 | After migration, open the contact in PostgreSQL staging before editing it. Use the migration mapping and read-only SQL to compare the captured fields and ordered workflow events, including dates, types, recorders, previous and new values, and notes. | The original ID traces to one migrated tracking record. Its pre-edit status, dates, notes, and existing workflow history match the captured baseline. |
-| 4 | Edit only the note in PostgreSQL staging. Save, reload, and reopen the contact. Compare the reopened record and its workflow history with the pre-edit evidence. | The edited note persists. Stage, status, dates (including the scheduled follow-up), and all pre-existing workflow events match the pre-edit values. |
+| 3 | After migration, open the contact in the local PostgreSQL rehearsal before editing it. Use the migration mapping and read-only SQL to compare the captured fields and ordered workflow events, including dates, types, recorders, previous and new values, and notes. | The original ID traces to one migrated tracking record. Its pre-edit status, dates, notes, and existing workflow history match the captured baseline. |
+| 4 | Edit only the note in the local PostgreSQL rehearsal. Save, reload, and reopen the contact. Compare the reopened record and its workflow history with the pre-edit evidence. | The edited note persists. Stage, status, dates (including the scheduled follow-up), and all pre-existing workflow events match the pre-edit values. |
 
 ## Local PostgreSQL rehearsal evidence (2026-11-12)
 
@@ -79,7 +96,7 @@ position status `Awaiting Decision` before and after the edit.
 A read-only PostgreSQL query returned one mapping from QA tracker `1` to
 pursuit `3` and zero matching workflow events. The event history from the
 corresponding MySQL QA snapshot is pending verification. Scheduled follow-up
-preservation is also unverified in this run. PostgreSQL staging remains **Not run**.
+preservation is also unverified for tracker `1`. The history fixture run remains **Not run**.
 
 - [Edited note before saving](TC-CONTACT-001-2026-11-12-postgresql-note-edited.png)
 - [PostgreSQL save confirmation](TC-CONTACT-001-2026-11-12-postgresql-save-confirmed.png)
