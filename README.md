@@ -16,30 +16,30 @@ His story captures what we want to demonstrate in CareerOps. Someone can lead a 
 
 Meet Gabe, my AI collaborator on Project Mendelssohn. I set the acceptance criteria, review the evidence, and make the release decision. Gabe turns those criteria into repeatable tests and coordinates the tools and agents that run them.
 
-For our first demonstration, Gabe helped me capture the MySQL baseline for a synthetic employer contact, including its status, dates, and workflow history. In local PostgreSQL, we added a note, saved the record, and reopened it to confirm the note was still there. Our next milestone is to run the full check in PostgreSQL staging, where we’ll compare the migrated record with the baseline and verify that editing the note leaves its status, dates, and history intact.
+For our first demonstration, Gabe captured a synthetic baseline from local MySQL DEV and replayed it in local PostgreSQL. Tracker `1001` mapped to one pursuit with the same contact date, stage, status, follow-up date, notes, and two workflow events. After saving and reopening the contact in the browser, the new note persisted and the other checked values matched the pre-edit record.
 
 ## The seven phases in practice
 
 | SDLC phase | What Bruce and Gabe will do | Evidence we’ll produce |
 | --- | --- | --- |
-| **1. Planning & Feasibility Analysis** | Bruce defines the first demonstration around one synthetic employer contact. Gabe checks whether we have the MySQL baseline, a comparable PostgreSQL staging environment, and a way to collect evidence from both. | Scope, environment checklist, and a decision on whether staging is ready. |
+| **1. Planning & Feasibility Analysis** | Bruce defines the first demonstration around one synthetic employer contact. Gabe checks whether we have the MySQL baseline, a local PostgreSQL rehearsal, and a way to collect evidence from both. | Scope, environment checklist, and a decision on whether the rehearsal is ready. |
 | **2. Requirements Analysis** | Bruce defines what must survive migration and what can change during a notes edit. Gabe uses **Skill Creator** to capture those rules and link them to `REQ-MIG-001` and `TC-CONTACT-001`. We’ll add `REQ-NORM-001` to StrictDoc for the separate record ownership scenario. | Approved acceptance criteria and requirement-to-test links. |
 | **3. Design** | We decide which fields to compare in SQL and which behaviors to verify through the browser. Gabe uses **plugins and connectors** to bring in GitHub requirements, CareerOps test access, and database evidence. We use **Multi** to compare proposed checks, and Bruce decides which ones belong in the test. | Field mapping, synthetic test data, and a reviewed test design. |
 | **4. Implementation (Coding)** | Gabe uses **code** to build the Playwright save-and-reopen check and the read-only SQL reconciliation. Bruce reviews what each assertion proves. | Versioned tests tied to `TC-CONTACT-001`, plus a controlled failure that names the field that differs. |
-| **5. Testing** | We finish the manual PostgreSQL staging run, then run the automation against the same scenario. Gabe **delegates** test design review, data reconciliation, and evidence review to subagents. We’ll try the same documented handoff in **Claude Desktop**. Gabe delivers an **artifact** Bruce can use to review expected values, actual values, and any differences. | Staging results, a field-by-field comparison, and a test evidence report. |
-| **6. Deployment** | After the staging test is repeatable, Gabe adds it to GitHub Actions. Bruce reviews the migration evidence, release criteria, and rollback plan before deciding whether to promote the change. | CI run, traceability report, and release decision. |
+| **5. Testing** | We use the local PostgreSQL rehearsal to verify browser behavior and compare the migrated record with the MySQL baseline. Gabe **delegates** test design review, data reconciliation, and evidence review to subagents. We’ll try the same documented handoff in **Claude Desktop**. Gabe delivers an **artifact** Bruce can use to review expected values, actual values, and any differences. | Local rehearsal results, a field-by-field comparison, and a test evidence report. |
+| **6. Deployment** | After the local rehearsal is repeatable, Gabe adds it to GitHub Actions. Bruce reviews the migration evidence, release criteria, and rollback plan before deciding whether to promote the change. | CI run, traceability report, and release decision. |
 | **7. Maintenance & Support** | We carry forward the hot-wash from Project GoDaddy. Bruce and Gabe review where the AI saved time, which decisions needed human judgment, and what we’d change before the next rehearsal. | Hot-wash notes, follow-up issues, and updates to the test or skill where needed. |
 
 ## The first two demonstrations
 
 ### Migration and contact editing — `REQ-MIG-001` / `TC-CONTACT-001`
 
-Capture the synthetic contact’s MySQL tracker ID, status, dates, notes, and workflow history. In PostgreSQL staging, verify that the ID maps to exactly one migrated record and that its pre-edit values match the baseline. Edit the note, save, reopen, and confirm that the new note persists while status, dates, and history match the baseline.
+Capture the synthetic contact’s MySQL tracker ID, status, dates, notes, and workflow history. In the local PostgreSQL rehearsal, verify that the ID maps to exactly one migrated record and that its pre-edit values match the baseline. Edit the note, save, reopen, and confirm that the new note persists while status, dates, and history match the baseline.
 
-The repository records a **MySQL baseline pass** and a **local PostgreSQL save-and-reopen pass**. The **PostgreSQL staging run is still open**. [Migration requirements](https://github.com/MIBoy54/Project-GoDaddy/blob/main/requirements/migration.sdoc) · [TC-CONTACT-001](https://github.com/MIBoy54/Project-GoDaddy/blob/main/requirements/docs/manual-tests/TC-CONTACT-001.md)
+The local history fixture run passed. The test case links the MySQL baseline, PostgreSQL comparisons, browser screenshots, and the validation URL. [Migration requirements](requirements/migration.sdoc) · [TC-CONTACT-001 evidence](requirements/docs/manual-tests/TC-CONTACT-001.md#local-postgresql-history-fixture-evidence)
 
 ### Independent record ownership — `REQ-NORM-001`
 
-Create one synthetic company, two positions, and one recruiter who supports both. Update the company website once and verify that both positions reflect the change while each application retains its own status and interview history. Then create a contributor without linking them to a position. This gives us a separate test of the reason we normalized the data. [Project GoDaddy README](https://github.com/MIBoy54/Project-GoDaddy/blob/main/README.md)
+Create one synthetic company, two positions, and one recruiter who supports both. Update the company website once and verify that both positions reflect the change while each application retains its own status and interview history. Then create a contributor without linking them to a position. This gives us a separate test of the reason we normalized the data. [TC-NORM-001](requirements/docs/manual-tests/TC-NORM-001.md)
 
-The first milestone is the **manual PostgreSQL staging run**. We’ll use its evidence to show the entire chain in the demo, from Bruce’s acceptance criteria to the database comparison, the browser test, and the release decision.
+Bruce reviews the local rehearsal evidence against the acceptance criteria before making a release decision.
