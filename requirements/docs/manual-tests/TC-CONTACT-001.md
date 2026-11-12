@@ -3,7 +3,7 @@
 - **Requirements:** [REQ-MIG-001](../../migration.sdoc) and [REQ-NOTE-001](../../migration.sdoc)
 - **MySQL baseline result:** PASS (steps 1–2)
 - **Local PostgreSQL GUI save/reopen:** PASS (later QA snapshot)
-- **Local PostgreSQL history fixture result:** Not run
+- **Local PostgreSQL history fixture result:** PASS
 
 - **Record:** QA tracker `1` → PostgreSQL pursuit `3`
 - **Actual result:** The edited note persisted after reloading the page
@@ -96,11 +96,28 @@ position status `Awaiting Decision` before and after the edit.
 A read-only PostgreSQL query returned one mapping from QA tracker `1` to
 pursuit `3` and zero matching workflow events. The event history from the
 corresponding MySQL QA snapshot is pending verification. Scheduled follow-up
-preservation is also unverified for tracker `1`. The history fixture run remains **Not run**.
+preservation is also unverified for tracker `1`.
 
 - [Edited note before saving](TC-CONTACT-001-2026-11-12-postgresql-note-edited.png)
 - [PostgreSQL save confirmation](TC-CONTACT-001-2026-11-12-postgresql-save-confirmed.png)
 - [Contact reopened with the saved note](TC-CONTACT-001-2026-11-12-postgresql-reopened.png)
+
+## Local PostgreSQL history fixture evidence
+
+**Result: PASS.** The authored fixture query ran on local MySQL DEV
+(`careerops_dev`). The migration and browser check ran against an isolated
+local PostgreSQL database using rehearsal launcher commit `b14c8a7`.
+The run used [http://127.0.0.1:13100/](http://127.0.0.1:13100/).
+
+Tracker `1001` mapped to pursuit `1`. The PostgreSQL record matched the
+captured source values for contact date, hiring stage, position status,
+follow-up date, notes, and both ordered workflow events. After saving and
+reopening, the browser displayed the edited note. The database comparison
+confirmed the note was the only change among the verified fields.
+
+- [Before editing](TC-CONTACT-001-history-before.png)
+- [Reopened contact](TC-CONTACT-001-history-reopened.png)
+- [MySQL baseline and PostgreSQL results before and after the edit](TC-CONTACT-001-history-results.json)
 
 ## MySQL baseline evidence
 

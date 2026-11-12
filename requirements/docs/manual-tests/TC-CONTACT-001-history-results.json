@@ -1,0 +1,88 @@
+{
+  "source": "local MySQL DEV, authored synthetic fixture",
+  "url": "http://127.0.0.1:13100/",
+  "baseline": {
+    "id": 1001,
+    "notes": "Synthetic migration baseline",
+    "company": "Mendelssohn History Fixture",
+    "role_level": "QA Engineer",
+    "hiring_stage": "Recruiter Screen",
+    "role_category": "Individual Contributor",
+    "date_contacted": "2026-11-07",
+    "follow_up_date": "2026-11-16",
+    "recruiter_name": "Test Recruiter",
+    "position_status": "Awaiting Decision",
+    "workflow_events": [
+      {
+        "notes": "Application recorded",
+        "new_value": "Applied",
+        "event_date": "2026-11-07",
+        "event_type": "application",
+        "recorded_by": "QA Fixture",
+        "previous_value": null
+      },
+      {
+        "notes": "Screen scheduled",
+        "new_value": "Recruiter Screen",
+        "event_date": "2026-11-09",
+        "event_type": "stage_change",
+        "recorded_by": "QA Fixture",
+        "previous_value": "Applied"
+      }
+    ]
+  },
+  "before": {
+    "legacy_tracker_id": 1001,
+    "pursuit_id": "1",
+    "date_contacted": "2026-11-07T06:00:00.000Z",
+    "hiring_stage": "Recruiter Screen",
+    "position_status": "Awaiting Decision",
+    "follow_up_date": "2026-11-16T06:00:00.000Z",
+    "notes": "Synthetic migration baseline",
+    "workflow_events": [
+      {
+        "notes": "Application recorded",
+        "new_value": "Applied",
+        "event_date": "2026-11-07",
+        "event_type": "application",
+        "recorded_by": "QA Fixture",
+        "previous_value": null
+      },
+      {
+        "notes": "Screen scheduled",
+        "new_value": "Recruiter Screen",
+        "event_date": "2026-11-09",
+        "event_type": "stage_change",
+        "recorded_by": "QA Fixture",
+        "previous_value": "Applied"
+      }
+    ]
+  },
+  "after": {
+    "legacy_tracker_id": 1001,
+    "pursuit_id": "1",
+    "date_contacted": "2026-11-07T06:00:00.000Z",
+    "hiring_stage": "Recruiter Screen",
+    "position_status": "Awaiting Decision",
+    "follow_up_date": "2026-11-16T06:00:00.000Z",
+    "notes": "Synthetic migration baseline | TC-CONTACT-001 history replay",
+    "workflow_events": [
+      {
+        "notes": "Application recorded",
+        "new_value": "Applied",
+        "event_date": "2026-11-07",
+        "event_type": "application",
+        "recorded_by": "QA Fixture",
+        "previous_value": null
+      },
+      {
+        "notes": "Screen scheduled",
+        "new_value": "Recruiter Screen",
+        "event_date": "2026-11-09",
+        "event_type": "stage_change",
+        "recorded_by": "QA Fixture",
+        "previous_value": "Applied"
+      }
+    ]
+  }
+}
