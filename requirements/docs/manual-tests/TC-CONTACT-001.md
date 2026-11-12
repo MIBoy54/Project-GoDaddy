@@ -1,6 +1,6 @@
 # TC-CONTACT-001 — Verify employer contact after migration
 
-- **Requirement:** [REQ-MIG-001](../../migration.sdoc)
+- **Requirements:** [REQ-MIG-001](../../migration.sdoc) and [REQ-NOTE-001](../../migration.sdoc)
 - **MySQL baseline result:** PASS (steps 1–2)
 - **Local PostgreSQL GUI save/reopen:** PASS (later QA snapshot)
 - **PostgreSQL staging result:** Not run
@@ -56,16 +56,18 @@ contact. The QA app entry point is [CareerOps QA](https://qa.democareerops-platf
 Before steps 3–4, confirm the staging app is connected to PostgreSQL and the
 synthetic fixture was migrated from the captured MySQL baseline. Record the
 exact staging validation URL and the original-to-migrated ID mapping in the
-run evidence. The local replay uses a later QA snapshot.
+run evidence. Use a synthetic staging fixture with a scheduled follow-up and
+existing workflow events, including a stage or status change, to exercise
+preservation. The local replay uses a later QA snapshot.
 
 ## Test steps
 
 | Step | Action | Expected result |
 | --- | --- | --- |
-| 1 | Open the contact in MySQL. Record its original tracker ID, status, dates, notes, and any existing workflow history. Use a read-only query for the ID if the UI does not display it. | The original record and its values are captured as the baseline. |
+| 1 | Open the contact in MySQL. Record its original tracker ID, stage, status, dates (including the scheduled follow-up), notes, and workflow history in event order. Use a read-only query for the ID if the UI does not display it. | The original record and its values are captured as the baseline. |
 | 2 | In MySQL, make a known change to the contact notes. Save, close, and reopen the contact. | The updated notes persist. The status and dates still match the baseline. |
-| 3 | After migration, open the contact in PostgreSQL staging before editing it. Use the migration mapping or a read-only query to verify the original tracker ID. | The original ID traces to one migrated tracking record. Its pre-edit status, dates, notes, and existing workflow history match the captured baseline. |
-| 4 | Repeat the same notes edit in PostgreSQL staging. Save, close, and reopen the contact. | The edited note persists and the status and dates still match the baseline. |
+| 3 | After migration, open the contact in PostgreSQL staging before editing it. Use the migration mapping and read-only SQL to compare the captured fields and ordered workflow events, including dates, types, recorders, previous and new values, and notes. | The original ID traces to one migrated tracking record. Its pre-edit status, dates, notes, and existing workflow history match the captured baseline. |
+| 4 | Edit only the note in PostgreSQL staging. Save, reload, and reopen the contact. Compare the reopened record and its workflow history with the pre-edit evidence. | The edited note persists. Stage, status, dates (including the scheduled follow-up), and all pre-existing workflow events match the pre-edit values. |
 
 ## Local PostgreSQL rehearsal evidence (2026-11-12)
 
@@ -74,7 +76,10 @@ QA tracker `1` (pursuit `3`) reopened with
 `Test Note Updated2 - PostgreSQL | TC-CONTACT-001 replay check`.
 The form showed contact date `2026-11-07`, hiring stage `Applied`, and
 position status `Awaiting Decision` before and after the edit.
-Workflow history comparison is pending for this run. PostgreSQL staging remains unrun.
+A read-only PostgreSQL query returned one mapping from QA tracker `1` to
+pursuit `3` and zero matching workflow events. The event history from the
+corresponding MySQL QA snapshot is pending verification. Scheduled follow-up
+preservation is also unverified in this run. PostgreSQL staging remains **Not run**.
 
 - [Edited note before saving](TC-CONTACT-001-2026-11-12-postgresql-note-edited.png)
 - [PostgreSQL save confirmation](TC-CONTACT-001-2026-11-12-postgresql-save-confirmed.png)
