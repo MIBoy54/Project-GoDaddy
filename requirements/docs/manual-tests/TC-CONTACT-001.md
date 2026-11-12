@@ -12,16 +12,60 @@
   
 ## Setup
 
-Use a synthetic employer contact in a MySQL test environment. Capture the
+### MySQL QA baseline
+
+Use a synthetic employer contact in MySQL QA (`careerops_qa`). Capture the
 migration input before making the test edit so PostgreSQL staging can start
-with the same original values.
+with the same original values. Record the exact browser URL used to open the
+contact. The QA app entry point is [CareerOps QA](https://qa.democareerops-platform.com/).
+
+### Local PostgreSQL rehearsal
+
+1. Use the `codex/postgres-contact-rehearsal` checkout of `careerops-platform`
+   with Node.js and the project dependencies installed. Run the launcher from
+   that checkout, where `package.json` defines `start:postgres-contact`.
+2. Start local PostgreSQL and verify that the replay database
+   `careerops_pg_replay` contains the migrated synthetic fixture. The source
+   environment is `railway_qa`, legacy tracker ID is `1`, and the recorded
+   replay maps it to pursuit `3`. Verify exactly one mapping before editing.
+3. Verify the PostgreSQL login in pgAdmin using the same IPv4 address and port
+   as the launcher. This run used `postgres` at `127.0.0.1:5432`. In that
+   connection's Query Tool, run
+   `SELECT current_database(), session_user, inet_server_addr(), inet_server_port();`
+   and confirm the database, role, address, and port.
+4. In PowerShell, change to the rehearsal checkout and run the following in
+   the same window. Enter the local PostgreSQL role password at the prompt.
+
+   ```powershell
+   $env:CAREEROPS_POSTGRES_USER = 'postgres'
+   $env:CAREEROPS_POSTGRES_PORT = '5432'
+   $env:CAREEROPS_POSTGRES_PASSWORD = [System.Net.NetworkCredential]::new('', (Read-Host 'Local PostgreSQL password' -AsSecureString)).Password
+   npm.cmd run start:postgres-contact
+   ```
+
+5. Wait for the launcher to print `CareerOps PostgreSQL contact rehearsal` and
+   leave PowerShell open. Use [http://127.0.0.1:3100/](http://127.0.0.1:3100/)
+   as the local browser validation URL. Select **Test Company (QA tracker 1)**
+   and click **Open contact**. Capture the record before the edit and again
+   after saving, reloading the page, and reopening it. Compare the date,
+   hiring stage, and position status across both captures. Use read-only
+   database evidence to compare workflow history.
+
+### PostgreSQL staging
+
+Before steps 3–4, confirm the staging app is connected to PostgreSQL and the
+synthetic fixture was migrated from the captured MySQL baseline. Record the
+exact staging validation URL and the original-to-migrated ID mapping in the
+run evidence. The local replay uses a later QA snapshot.
+
+## Test steps
 
 | Step | Action | Expected result |
 | --- | --- | --- |
 | 1 | Open the contact in MySQL. Record its original tracker ID, status, dates, notes, and any existing workflow history. Use a read-only query for the ID if the UI does not display it. | The original record and its values are captured as the baseline. |
 | 2 | In MySQL, make a known change to the contact notes. Save, close, and reopen the contact. | The updated notes persist. The status and dates still match the baseline. |
 | 3 | After migration, open the contact in PostgreSQL staging before editing it. Use the migration mapping or a read-only query to verify the original tracker ID. | The original ID traces to one migrated tracking record. Its pre-edit status, dates, notes, and existing workflow history match the captured baseline. |
-| 4 | Repeat the same notes edit in PostgreSQL staging. Save, close, and reopen the contact. | The edited note persists and the status and dates still match the baseline.
+| 4 | Repeat the same notes edit in PostgreSQL staging. Save, close, and reopen the contact. | The edited note persists and the status and dates still match the baseline. |
 
 ## MySQL baseline evidence
 
