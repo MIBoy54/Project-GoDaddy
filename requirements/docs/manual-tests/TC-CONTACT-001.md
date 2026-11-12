@@ -67,6 +67,19 @@ run evidence. The local replay uses a later QA snapshot.
 | 3 | After migration, open the contact in PostgreSQL staging before editing it. Use the migration mapping or a read-only query to verify the original tracker ID. | The original ID traces to one migrated tracking record. Its pre-edit status, dates, notes, and existing workflow history match the captured baseline. |
 | 4 | Repeat the same notes edit in PostgreSQL staging. Save, close, and reopen the contact. | The edited note persists and the status and dates still match the baseline. |
 
+## Local PostgreSQL rehearsal evidence (2026-11-12)
+
+The local save-and-reopen check passed at [http://127.0.0.1:3100/](http://127.0.0.1:3100/).
+QA tracker `1` (pursuit `3`) reopened with
+`Test Note Updated2 - PostgreSQL | TC-CONTACT-001 replay check`.
+The form showed contact date `2026-11-07`, hiring stage `Applied`, and
+position status `Awaiting Decision` before and after the edit.
+Workflow history comparison is pending for this run. PostgreSQL staging remains unrun.
+
+- [Edited note before saving](TC-CONTACT-001-2026-11-12-postgresql-note-edited.png)
+- [PostgreSQL save confirmation](TC-CONTACT-001-2026-11-12-postgresql-save-confirmed.png)
+- [Contact reopened with the saved note](TC-CONTACT-001-2026-11-12-postgresql-reopened.png)
+
 ## MySQL baseline evidence
 
 - **Original MySQL tracker ID:** `1`
