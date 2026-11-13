@@ -1,4 +1,4 @@
-# Project Mendelssohn
+                                                                                # Project Mendelssohn
 
 Project Mendelssohn is a CareerOps proof of concept for applying AI-assisted quality engineering across all seven phases of the software development lifecycle. **The seven SDLC phases are our template. The five AI orchestration steps show how Bruce and Gabe work within that template.**
 
@@ -11,6 +11,10 @@ My conversation with Nicole Huse at CBE Companies raised a question I wanted to 
 ### Why we chose Mendelssohn
 
 We named the project after Felix Mendelssohn (1911–1952), the British bandleader who formed and led the Hawaiian Serenaders. The group helped bring Hawaiian music to British audiences through live performances, radio broadcasts, and recordings such as *Hawaiian Memories*. A 1956 account in *Practical Wireless* reported that Mendelssohn led the ensemble and made records despite having no formal musical training and, by his own account, being unable to play an instrument. [University of Hawaiʻi music archive](https://digital.library.manoa.hawaii.edu/music/artists/mendelssohn) · [*Practical Wireless*, October 1956, p. 531](https://electronicsandbooks.com/edt/manual/Magazine/P/Practical%20Wireless%20UK/50s/PW-1956-10%20c20150823%20%5B76%5D.pdf)
+
+Felix Mendelssohn served as master of ceremonies and the visual focal point of the Hawaiian Serenaders. Dressed in a crisp white suit and a flower lei, he introduced the songs and charmed audiences while his musicians performed. [Felix Mendelssohn and His Hawaiian Serenaders](https://www.musichallcds.co.uk/var110_page.htm)
+
+One of the band’s best-known recordings was “Hawaiian War Chant.” The University of Hawaiʻi at Mānoa Library has a 30-second preview of their 1944 recording. [Hawaiian War Chant](https://digital.library.manoa.hawaii.edu/items/show/36755)
 
 His story captures what we want to demonstrate in CareerOps. Someone can lead a test automation effort by defining what the software must do, asking what each check proves, and judging the results. Writing the automation is one part of that work. Knowing what to verify and what evidence to trust is another.
 
